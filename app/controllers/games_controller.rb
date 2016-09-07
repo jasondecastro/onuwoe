@@ -9,11 +9,12 @@ class GamesController < ApplicationController
 		# binding.pry
 		@game = Game.create(state: 0)
 		@game.players << Player.create(user_id: User.create(name: "Jason").id, nickname: "jasonator")
+		# binding.pry
 		redirect_to game_path(@game)
 	end
 
 	def show
-		binding.pry
+		@game = Game.find(params[:id])
 	end
 
 	private
