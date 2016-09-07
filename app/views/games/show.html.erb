@@ -1,15 +1,26 @@
 <div class="container">
   <center>
-    <h1>LOBBY</h1>
+    <h2>LOBBY</h2>
     <br>
     <ul class="list-group" style="width:300px;">
     <li class="list-group-item">
-      <strong><h3>Players (<%= @game.players.all.length %>)</h3></strong>
+      <strong><h4>Players (<%= @game.players.all.length %>)</h4></strong>
     </li>
       <% @game.players.each do |player| %>
-        <li class="list-group-item"><%= player.nickname %></li>
+        <li class="list-group-item" style="font-size:13px;"><%= player.nickname %></li>
       <% end %>
     </ul>
-    <button id="start" class="btn btn-lg btn-info btn-block" style="width: 250px; background-color: grey; border-color: grey;" disabled>Start </button>
+    
+
+      <div class="btn group col-md-8 col-md-offset-4">
+        <div class="col-md-4" style="padding-left:45px;">
+          <button id="start" class="btn btn-lg btn-info btn-block" style="width: 200px; background-color: grey; border-color: grey;" disabled>Start </button>
+        </div>
+        <div class="col-md-4" style="margin-left:-10px;">
+          <button id="start" class="btn btn-lg btn-danger btn-block" style="width: 50px;">L</button>
+        </div>
+
+      </div>
+     
   </center>
 </div>
