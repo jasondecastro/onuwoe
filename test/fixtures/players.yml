@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nickname: MyString
+  final_card: MyString
+  game: one
+  user: one
+
+two:
+  nickname: MyString
+  final_card: MyString
+  game: two
+  user: two
