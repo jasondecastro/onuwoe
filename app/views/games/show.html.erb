@@ -1,0 +1,6 @@
+<h1>GAME LOBBY<h1>
+<h3>Get Ready to Get Rekt!<h3>
+<p>
+<% @game.players.each do |player| %>
+<ul><%= player.name %></ul>
+<% end %>
