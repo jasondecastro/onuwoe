@@ -26,17 +26,20 @@ class GamesController < ApplicationController
 	end
 
 	def show
-    @game = Game.find(params[:id])
+    	@game = Game.find(params[:id])
 
     #once we add ActionCable, we will have to monitor if the game is full or not here
-    if @game.start_game
-      redirect_to game_play_path
-    end
+	    if @game.start_game
+	      redirect_to game_play_path
+	    end
 	end
 
-  def play
-
-  end
+	def play
+		binding.pry
+		@game = Game.find(params[:id])
+		@game.update(state: 1)
+		@player = current_user.player
+	end
 
 	def destroy
 		Game.destroy_all

@@ -1,0 +1,26 @@
+<center>
+<!-- display individual player's card and action form -->
+<h1>Your Card</h1>
+<%= @player.card.role %>
+<%= @player.card.action  %>
+<!-- form -->
+<% if @player.card.action %>
+<h1>Make Your Action</h1>
+
+
+<!-- display game players -->
+<h1>Player List</h1>
+<% @game.players.all do |player| %>
+<%=  player.nickname %>
+<% end %>
+
+<!-- display game card and roles and actions -->
+<h1>Player List</h1>
+<% Cards.all do |card| %>
+<%=  card.role %>
+<%=  card.action %>
+<% end %>
+
+<!-- button for ready or pushing on -->
+	
+</center>
