@@ -6,14 +6,55 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
   </head>
 
   <body>
-    <% if current_user %>
-      Signed in as <%= current_user.name %> | <%= link_to 'Sign Out', '/signout' %>
-    <% else %>
-      <%= link_to 'Sign In', root_path %> | <%= link_to 'Sign Up', '/signup' %>
-    <% end %>
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Online Werewolves</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      <% if !current_user %>
+        <li ><a href="#">Instructions <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Strategies</a></li>
+      <% else %>
+        <li ><a href="#">Instructions <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Strategies</a></li>
+        <li><a href="#">Analytics</a></li>
+        <li><a href="#">Leaderboards</a></li>
+      <% end %>
+        
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+      <li>
+        <% if current_user %>
+          <li><a style="color: black;">Signed in as <strong><%= current_user.name %></strong></a></li> <li><%= link_to 'Sign Out', '/signout' %></li>
+        <% else %>
+          <li><%= link_to 'Sign In', root_path %></li> <li><%= link_to 'Sign Up', '/signup' %></li>
+        <% end %>
+        </li>
+       
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
     <%= yield %>
   </body>
 </html>
