@@ -1,0 +1,6 @@
+<h1>GAME LOBBY<h1>
+<h3>Get Ready to Get Rekt!<h3>
+<h4>Players List</h4>
+<ul><% @game.players.each do |player| %>
+<li><%= player.nickname %></li>
+<% end %></ul>

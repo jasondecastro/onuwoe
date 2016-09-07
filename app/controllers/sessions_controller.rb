@@ -8,15 +8,15 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to '/'
+      redirect_to new_game_path
     else
-      redirect_to '/signin'
+      redirect_to root_path
     end
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to '/signin'
+    redirect_to root_path
   end
 
 end
