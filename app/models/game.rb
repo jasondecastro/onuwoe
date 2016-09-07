@@ -17,6 +17,7 @@ class Game < ApplicationRecord
 	def start_game
 		if self.full?
 			self.assign_cards
+			self.save
 		end
 	end
 end

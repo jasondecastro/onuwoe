@@ -7,7 +7,7 @@ class GamesController < ApplicationController
 	end
 
 	def create
-		@game = Game.create(state: 0)
+		@game = Game.create(game_params, state: 0)
 		@player = Player.create(user_id: current_user.id, nickname: current_user.name + " (the creator)")
 		@game.players << @player
 
@@ -29,16 +29,22 @@ class GamesController < ApplicationController
     	@game = Game.find(params[:id])
 
     #once we add ActionCable, we will have to monitor if the game is full or not here
-	    if @game.start_game
+	    if @game.full?
 	      redirect_to game_play_path
 	    end
 	end
 
 	def play
-		binding.pry
+		# binding.pry
 		@game = Game.find(params[:id])
+		@game.assign_cards
 		@game.update(state: 1)
-		@player = current_user.player
+		@game.players.each do |player|
+			if player.user_id == current_user.id
+				@player = player
+			end
+		end
+		
 	end
 
 	def destroy
@@ -48,7 +54,7 @@ class GamesController < ApplicationController
 	private
 
 	def game_params
-		params.require(:game).permit(:user)
+		params.require(:game).permit(*args)
 	end
 
 end
