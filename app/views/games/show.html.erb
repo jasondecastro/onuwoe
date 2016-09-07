@@ -1,6 +1,15 @@
-<h1>GAME LOBBY<h1>
-<h3>Get Ready to Get Rekt!<h3>
-<h4>Players List</h4>
-<ul><% @game.players.each do |player| %>
-<li><%= player.nickname %></li>
-<% end %></ul>
+<div class="container">
+  <center>
+    <h1>LOBBY</h1>
+    <br>
+    <ul class="list-group" style="width:300px;">
+    <li class="list-group-item">
+      <strong><h3>Players (<%= @game.players.all.length %>)</h3></strong>
+    </li>
+      <% @game.players.each do |player| %>
+        <li class="list-group-item"><%= player.nickname %></li>
+      <% end %>
+    </ul>
+    <button id="start" class="btn btn-lg btn-info btn-block" style="width: 250px; background-color: grey; border-color: grey;" disabled>Start </button>
+  </center>
+</div>
