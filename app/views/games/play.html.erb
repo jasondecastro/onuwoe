@@ -2,11 +2,11 @@
 
 <!-- display individual player's card and action form -->
 <h1>Your Card</h1>
-<%= @player.card.role %>
-<%= @player.card.action  %>
-<!-- form -->
-<% if @player.card.action %>
-<h1>Make Your Action</h1>
+Your card: <%= @player.card.role %><br>
+
+<% if @player.card.action != "" %>
+  Your action: <%= @player.card.action  %>
+  <h1><%= "Make Your Action" %></h1>
 <% end %>
 
 
