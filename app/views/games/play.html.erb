@@ -6,7 +6,11 @@ Your card: <%= @player.card.role %><br>
 
 <% if @player.card.action != "" %>
   Your action: <%= @player.card.action  %>
-  <h1><%= "Make Your Action" %></h1>
+  <% if @player.card.role == "Werewolf" %>
+  	<h2><%= current_game.werewolf_action(current_user) %></h2>
+  <% else %>
+  	<h2><%= "Make Your Action" %></h2>
+  <% end %>
 <% end %>
 
 

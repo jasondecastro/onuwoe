@@ -48,6 +48,7 @@ class GamesController < ApplicationController
 				@player = player
 			end
 		end
+  # binding.pry
 
 	end
 

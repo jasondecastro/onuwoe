@@ -27,9 +27,15 @@ class Game < ApplicationRecord
 	end
 
 	def werewolves
-	  	# find the 2 (all) werewolves
 	  	self.players.joins(:card).where("role = 'Werewolf'")
-	  	# find the players associated with the werewolves
+	end
+
+	def werewolf_action(user)
+	  	werewolf_names = self.werewolves.collect {|werewolf| werewolf.nickname }
+	  	display_werewolves = werewolf_names.join(" and ")
+	  	if self.werewolves.include?(user.player)
+	  		"The Werewolves are #{display_werewolves}."
+	  	end
 	  	# if current_user is included in the array; display the other user
 	end
 
