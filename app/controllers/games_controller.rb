@@ -37,7 +37,11 @@ class GamesController < ApplicationController
 	def play
 		# binding.pry
 		@game = Game.find(params[:id])
-		@game.assign_cards
+		if !@game.players.last.card
+			@game.assign_cards
+		end
+		# binding.pry
+		# block re-assignment on useraction page refresh
 		@game.update(state: 1)
 		@game.players.each do |player|
 			if player.user_id == current_user.id
