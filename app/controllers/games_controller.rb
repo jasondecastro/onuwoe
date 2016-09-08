@@ -31,6 +31,9 @@ class GamesController < ApplicationController
     #once we add ActionCable, we will have to monitor if the game is full or not here
 	    if @game.start_game
 	      redirect_to game_play_path
+        binding.pry
+      else
+        binding.pry
 	    end
 	end
 
