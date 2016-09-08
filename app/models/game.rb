@@ -25,4 +25,34 @@ class Game < ApplicationRecord
 			self.save
 		end
 	end
+
+	def werewolves
+	  	# find the 2 (all) werewolves
+	  	self.players.joins(:card).where("role = 'Werewolf'")
+	  	# find the players associated with the werewolves
+	  	# if current_user is included in the array; display the other user
+	end
+
+	def seer
+	  	self.players.joins(:card).where("role = 'Seer'")
+	end
+
+	def villagers
+	  	self.players.joins(:card).where("role = 'Villager'")
+	end
+
+	def troublemaker
+	  	self.players.joins(:card).where("role = 'Troublemaker'")
+	end
+
+	def robber
+	  	self.players.joins(:card).where("role = 'Robber'")
+	end
+
+	private
+
+	def current_game
+		Game.find(params[:id])
+	end
+
 end
