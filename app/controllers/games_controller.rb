@@ -7,7 +7,7 @@ class GamesController < ApplicationController
 	end
 
 	def create
-		@game = Game.create(game_params, state: 0)
+		@game = Game.create(state: 0)
 		@player = Player.create(user_id: current_user.id, nickname: current_user.name + " (the creator)")
 		@game.players << @player
 
@@ -31,9 +31,6 @@ class GamesController < ApplicationController
     #once we add ActionCable, we will have to monitor if the game is full or not here
 	    if @game.full?
 	      redirect_to game_play_path
-        binding.pry
-      else
-        binding.pry
 	    end
 	end
 
@@ -51,7 +48,7 @@ class GamesController < ApplicationController
 				@player = player
 			end
 		end
-		
+
 	end
 
 	def destroy

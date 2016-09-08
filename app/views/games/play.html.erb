@@ -1,22 +1,5 @@
 <center>
 
-<head>
-<style>
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-tr:hover{background-color:#f5f5f5}
-</style>
-</head>
-
 <!-- display individual player's card and action form -->
 <h1>Your Card</h1>
 <%= @player.card.role %>
@@ -29,7 +12,7 @@ tr:hover{background-color:#f5f5f5}
 
 <!-- display game players -->
 <h1>Players List</h1>
-<% @game.players.all do |player| %>
+<% @game.players.each do |player| %>
 <li><%=  player.nickname %></li>
 <% end %>
 
@@ -48,5 +31,5 @@ tr:hover{background-color:#f5f5f5}
 </table>
 
 <!-- button for ready or pushing on -->
-	
+
 </center>
