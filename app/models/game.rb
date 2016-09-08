@@ -1,6 +1,7 @@
 class Game < ApplicationRecord
 	has_many :players
 
+
 	def full?
 		self.players.length == 7
 	end
@@ -36,11 +37,16 @@ class Game < ApplicationRecord
 	  	if self.werewolves.include?(user.player)
 	  		"The Werewolves are #{display_werewolves}."
 	  	end
-	  	# if current_user is included in the array; display the other user
 	end
 
 	def seer
 	  	self.players.joins(:card).where("role = 'Seer'")
+	end
+
+	def seer_action(user)
+		if self.seer.include?(user.player)
+			"You are the Seer, select the card you wish to see."
+		end
 	end
 
 	def villagers
