@@ -48,13 +48,13 @@ class GamesController < ApplicationController
 				@player = player
 			end
 		end
+
+		# binding.pry
 	end
 
-	def round2
-		# werewolves
+	def update
+		
 	end
-
-	
 
 	def destroy
 		Game.destroy_all

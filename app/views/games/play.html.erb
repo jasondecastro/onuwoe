@@ -10,7 +10,15 @@ Your card: <%= @player.card.role %><br>
   	<h2><%= current_game.werewolf_action(current_user) %></h2>
   <% else %>
   	<h2><%= "Make Your Action" %></h2>
+  	<% if @player.card.role == "Troublemaker" %>
+  	<%= render 'troublemaker_form' %>
+  	<% elsif @player.card.role == "Seer" %>
+  	<%= render 'seer_form' %>
+  	<% elsif @player.card.role == "Robber" %>
+  	<%= render 'robber_form' %>
+  	<% end %>
   <% end %>
+
 <% end %>
 
 
