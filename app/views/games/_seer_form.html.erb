@@ -1,0 +1,7 @@
+<!-- seer: see one other card (radio button) -->
+
+<%= form_for @game do |f| %>
+  <%= f.label :players %><br>
+  <%= f.collection_radio_buttons :players, @game.players.all, :id, :nickname %>
+  <%= f.submit %>
+  <% end %>
