@@ -10,7 +10,6 @@ class GamesController < ApplicationController
 		@game = Game.create(state: 0, host: current_user.name)
 		@player = Player.create(user_id: current_user.id, nickname: current_user.name)
 		@game.players << @player
-		binding.pry
 		@game.create_rounds
 		@game.save
 
@@ -34,36 +33,15 @@ class GamesController < ApplicationController
 	end
 
 	def show
-    	@game = Game.find(params[:id])
+  	@game = Game.find(params[:id])
 
-    #once we add ActionCable, we will have to monitor if the game is full or not here
-	    if @game.full?
-				#redirect_to round_1_path
-	      redirect_to game_play_path
-	    end
+  #once we add ActionCable, we will have to monitor if the game is full or not here
+    if @game.full?
+			@game.change_round
+    end
+
+		redirect_to game_round_path(game_id: @game.id, id: @game.current_round.id)
 	end
-
-# should this be the wrapper method? & relocated to the rounds controller
-# round 1:
-# assigning cards
-
-#REMOVE
-	def play
-		# binding.pry
-		@game = Game.find(params[:id])
-		if !@game.players.last.card
-			@game.assign_cards
-		end
-		@game.update(state: 1)
-		@game.players.each do |player|
-			if player.user_id == current_user.id
-				@player = player
-			end
-		end
-	end
-
-
-
 
 	def destroy
 		Game.destroy_all

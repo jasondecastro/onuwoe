@@ -1,8 +1,36 @@
 class Round < ApplicationRecord
   belongs_to :game
 
+  def play
+    binding.pry
+    #refactor into case statement
+    if self.number == 1
+      round_1
+    elsif self.number == 2
+      round_2
+    end
+  end
+
+  def round_1
+    @game = self.game
+    if !@game.players.last.card
+      @game.assign_cards
+    end
+
+    #@game.update(state: 1)
+    @game.players.each do |player|
+      if player.user_id == current_user.id
+        @player = player
+      end
+    end
+  end
+
+  def round_2
+    werewolf_action()
+  end
+
   def werewolves
-      self.players.joins(:card).where("role = 'Werewolf'")
+    self.players.joins(:card).where("role = 'Werewolf'")
   end
 
   def werewolf_action(user)
