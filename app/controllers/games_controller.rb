@@ -7,8 +7,8 @@ class GamesController < ApplicationController
 	end
 
 	def create
-		@game = Game.create(state: 0)
-		@player = Player.create(user_id: current_user.id, nickname: current_user.name + " (the creator)")
+		@game = Game.create(state: 0, host: current_user.name)
+		@player = Player.create(user_id: current_user.id, nickname: current_user.name)
 		@game.players << @player
 
 		redirect_to game_path(@game)
@@ -16,6 +16,11 @@ class GamesController < ApplicationController
 
 	def join
 		@random_game = Game.where('state = 0').first
+
+		if @random_game == nil
+			@random_game = Game.create(state: 0, host: current_user)
+		end
+
 		@player = Player.find_or_create_by(user_id: current_user.id)
 		@player.nickname = current_user.name
 		unless @random_game.players.include?(@player)
