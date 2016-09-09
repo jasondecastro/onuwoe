@@ -10,6 +10,9 @@ class GamesController < ApplicationController
 		@game = Game.create(state: 0, host: current_user.name)
 		@player = Player.create(user_id: current_user.id, nickname: current_user.name)
 		@game.players << @player
+		binding.pry
+		@game.create_rounds
+		@game.save
 
 		redirect_to game_path(@game)
 	end
@@ -35,18 +38,22 @@ class GamesController < ApplicationController
 
     #once we add ActionCable, we will have to monitor if the game is full or not here
 	    if @game.full?
+				#redirect_to round_1_path
 	      redirect_to game_play_path
 	    end
 	end
 
+# should this be the wrapper method? & relocated to the rounds controller
+# round 1:
+# assigning cards
+
+#REMOVE
 	def play
 		# binding.pry
 		@game = Game.find(params[:id])
 		if !@game.players.last.card
 			@game.assign_cards
 		end
-		# binding.pry
-		# block re-assignment on useraction page refresh
 		@game.update(state: 1)
 		@game.players.each do |player|
 			if player.user_id == current_user.id
@@ -55,11 +62,8 @@ class GamesController < ApplicationController
 		end
 	end
 
-	def round2
-		# werewolves
-	end
 
-	
+
 
 	def destroy
 		Game.destroy_all

@@ -1,5 +1,6 @@
 class Game < ApplicationRecord
 	has_many :players
+	has_many :rounds
 
 
 	def full?
@@ -7,16 +8,13 @@ class Game < ApplicationRecord
 	end
 
 	def assign_cards
-		# binding.pry
 		cards = Card.all
 		shuffled_cards = cards.shuffle
 
 		self.players.each_with_index do |player, i|
 			player.card = shuffled_cards[i]
-			# binding.pry
 			player.save
 		end
-		# binding.pry
 		self.save
 	end
 
@@ -27,38 +25,14 @@ class Game < ApplicationRecord
 		end
 	end
 
-	def werewolves
-	  	self.players.joins(:card).where("role = 'Werewolf'")
-	end
-
-	def werewolf_action(user)
-	  	werewolf_names = self.werewolves.collect {|werewolf| werewolf.nickname }
-	  	display_werewolves = werewolf_names.join(" and ")
-	  	if self.werewolves.include?(user.player)
-	  		"The Werewolves are #{display_werewolves}."
-	  	end
-	end
-
-	def seer
-	  	self.players.joins(:card).where("role = 'Seer'")
-	end
-
-	def seer_action(user)
-		if self.seer.include?(user.player)
-			"You are the Seer, select the card you wish to see."
-		end
-	end
-
-	def villagers
-	  	self.players.joins(:card).where("role = 'Villager'")
-	end
-
-	def troublemaker
-	  	self.players.joins(:card).where("role = 'Troublemaker'")
-	end
-
-	def robber
-	  	self.players.joins(:card).where("role = 'Robber'")
+	def create_rounds
+		Round.create(game_id: self.id, number: 1, current: false, complete: false)
+		Round.create(game_id: self.id, number: 2, current: false, complete: false)
+		Round.create(game_id: self.id, number: 3, current: false, complete: false)
+		Round.create(game_id: self.id, number: 4, current: false, complete: false)
+		Round.create(game_id: self.id, number: 5, current: false, complete: false)
+		Round.create(game_id: self.id, number: 6, current: false, complete: false)
+		Round.create(game_id: self.id, number: 7, current: false, complete: false)
 	end
 
 	private
