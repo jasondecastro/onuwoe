@@ -16,6 +16,10 @@ Your card: <%= @player.card.role %><br>
   	<%= render 'seer_form' %>
   	<% elsif @player.card.role == "Robber" %>
   	<%= render 'robber_form' %>
+  	<% elsif @game.round.number == 6 %>
+  	<%= render 'voting_form' %>
+  	<% elsif @game.round.number == 7 %>
+  	<%= render 'winner' %>
   	<% end %>
   <% end %>
 

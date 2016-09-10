@@ -14,10 +14,22 @@ Card.create(role: "Robber", action: "Robber, wake up. You may exchange your card
 Card.create(role: "Werewolf", action: "Find out the other werewolf.", team: "Werewolf")
 Card.create(role: "Werewolf", action: "Find out the other werewolf.", team: "Werewolf")
 
-User.create(name: "Alice", password: "pass")
-User.create(name: "Jason", password: "pass")
-User.create(name: "Tony", password: "pass")
-User.create(name: "Andrew", password: "pass")
-User.create(name: "Colby", password: "pass")
-User.create(name: "Charlie", password: "pass")
-User.create(name: "Khaleda", password: "pass")
+game = Game.create
+
+alice = User.create(name: "Alice", password: "pass")
+game.players << Player.create(user_id: alice.id, nickname: alice.name)
+jason = User.create(name: "Jason", password: "pass")
+game.players << Player.create(user_id: jason.id, nickname: jason.name)
+tony = User.create(name: "Tony", password: "pass")
+game.players << Player.create(user_id: tony.id, nickname: tony.name)
+andrew = User.create(name: "Andrew", password: "pass")
+game.players << Player.create(user_id: andrew.id, nickname: andrew.name)
+colby = User.create(name: "Colby", password: "pass")
+game.players << Player.create(user_id: colby.id, nickname: colby.name)
+charlie = User.create(name: "Charlie", password: "pass")
+game.players << Player.create(user_id: charlie.id, nickname: charlie.name)
+khaleda = User.create(name: "Khaleda", password: "pass")
+game.players << Player.create(user_id: khaleda.id, nickname: khaleda.name)
+
+game.assign_cards
+
