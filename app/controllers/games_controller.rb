@@ -33,20 +33,23 @@ class GamesController < ApplicationController
 	end
 
 	def show
-  	@game = Game.find(params[:id])
+
+	  	@game = Game.find(params[:id])
+
+	    @nickname = Player.find_by(user_id: current_user.id)
 
   #once we add ActionCable, we will have to monitor if the game is full or not here
-    if @game.full? && @game.players.first.card == nil
-			@game.current_round.round_1
-			@game.players.each do |player|
-				if player.user_id == current_user.id
-					@player = player
+	    if @game.full? && @game.players.first.card == nil
+				@game.current_round.round_1
+				@game.players.each do |player|
+					if player.user_id == current_user.id
+						@player = player
+					end
 				end
-			end
-		elsif @game.full?
-			@game.change_round
-			redirect_to game_round_path(game_id: @game.id, id: @game.current_round.id)
-    end
+			elsif @game.full?
+				@game.change_round
+				redirect_to game_round_path(game_id: @game.id, id: @game.current_round.id)
+	    end
 	end
 
 	def play
