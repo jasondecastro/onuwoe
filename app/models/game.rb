@@ -49,7 +49,6 @@ class Game < ApplicationRecord
 		new_round = self.rounds.where(number: new_round_number).first
 
 		new_round.update(current: true)
-
 	end
 
 	private
