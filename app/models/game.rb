@@ -1,6 +1,7 @@
 class Game < ApplicationRecord
 	has_many :players
 	has_many :rounds
+	accepts_nested_attributes_for :players
 
 
 	def full?
@@ -41,7 +42,7 @@ class Game < ApplicationRecord
 	end
 
 	def change_round
-		binding.pry
+  # binding.pry
 		old_round = current_round
 		old_round.update(complete: true, current: false)
 

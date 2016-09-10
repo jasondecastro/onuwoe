@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   get '/' => 'sessions#new', as: 'root'
   post '/signin' => 'sessions#create'
   get '/signout' => 'sessions#destroy'
+
+  get '/search', to: 'games#search', as: 'game_player_search'
 end

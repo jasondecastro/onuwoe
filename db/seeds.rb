@@ -15,6 +15,7 @@ Card.create(role: "Werewolf", action: "Find out the other werewolf.", team: "Wer
 Card.create(role: "Werewolf", action: "Find out the other werewolf.", team: "Werewolf")
 
 game = Game.create
+game.create_rounds
 
 alice = User.create(name: "Alice", password: "pass")
 game.players << Player.create(user_id: alice.id, nickname: alice.name)
@@ -31,5 +32,6 @@ game.players << Player.create(user_id: charlie.id, nickname: charlie.name)
 khaleda = User.create(name: "Khaleda", password: "pass")
 game.players << Player.create(user_id: khaleda.id, nickname: khaleda.name)
 
-game.assign_cards
+# game.assign_cards
+game.save
 

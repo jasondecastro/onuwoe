@@ -53,12 +53,32 @@ class GamesController < ApplicationController
 		@game = current_game
 
 		@game.players.each do |player|
-      if player.user_id == current_user.id
-        @player = player
-      end
+	      if player.user_id == current_user.id
+	        @player = player
+	      end
+	  	end
+
+	  	if params[:name] == nil
+	  		#if there are no params, a form needs to be displayed
+	  		@display = @game.current_round.display_page(current_user)
+	  	else 
+	  		# if there are params, a form has been sent, and the results need to be displayed
+	  		@display = @game.current_round.result_page(current_user, params)
+	  	end
+	  	binding.pry
+	  	
+	  	params[:name]
+	  	params[:role]
+
     end
 
-	end
+    def search
+    	binding.pry
+    	player = Player.find(params[:players][:player_id])
+    	role = player.card.role
+    	name = player.nickname
+    	redirect_to game_play_path(current_game, role: role, name: name)
+    end
 
 	def destroy
 		Game.destroy_all

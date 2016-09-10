@@ -11,6 +11,25 @@ class Round < ApplicationRecord
     end
   end
 
+  def display_page(user)
+    if self.number == 1 && user.player.card.role == "Werewolf"
+      "'werewolf'"
+    elsif self.number == 1
+      "'werewolf_awake'"
+    end
+  end
+
+  def result_page(user, params)
+    binding.pry
+    if self.number == 1 && user.player.card.role == "Seer"
+      @role = params[:role]
+      "'seer_results', locals: { name: #{params[:name]}, role: #{@role}}'"
+      binding.pry
+    elsif self.number == 4 && user.player.card.role == "Robber"
+    
+    end
+  end
+
   def round_1
     @game = self.game
     if !@game.players.last.card
@@ -19,11 +38,15 @@ class Round < ApplicationRecord
   end
 
   def round_2
-    werewolf_action()
+    binding.pry
+    @game = current_game
+    @round = @game.current_round
+    werewolf_action(current_user)
   end
 
   def werewolves
-    self.players.joins(:card).where("role = 'Werewolf'")
+    # binding.pry
+    self.game.players.joins(:card).where("role = 'Werewolf'")
   end
 
   def werewolf_action(user)
@@ -35,7 +58,7 @@ class Round < ApplicationRecord
   end
 
   def seer
-      self.players.joins(:card).where("role = 'Seer'")
+      self.game.players.joins(:card).where("role = 'Seer'")
   end
 
   def seer_action(user)
@@ -45,14 +68,14 @@ class Round < ApplicationRecord
   end
 
   def villagers
-      self.players.joins(:card).where("role = 'Villager'")
+      self.game.players.joins(:card).where("role = 'Villager'")
   end
 
   def troublemaker
-      self.players.joins(:card).where("role = 'Troublemaker'")
+      self.game.players.joins(:card).where("role = 'Troublemaker'")
   end
 
   def robber
-      self.players.joins(:card).where("role = 'Robber'")
+      self.game.players.joins(:card).where("role = 'Robber'")
   end
 end
