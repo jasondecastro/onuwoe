@@ -38,6 +38,8 @@ class GamesController < ApplicationController
 
 	    @nickname = Player.find_by(user_id: current_user.id)
 
+	    @message = Message.new
+
   #once we add ActionCable, we will have to monitor if the game is full or not here
 	    if @game.full? && @game.players.first.card == nil
 				@game.current_round.round_1

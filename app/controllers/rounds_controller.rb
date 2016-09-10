@@ -17,5 +17,3 @@ class RoundsController < ApplicationController
   end
 
 end
-
-#l

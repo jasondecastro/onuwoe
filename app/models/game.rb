@@ -1,6 +1,7 @@
 class Game < ApplicationRecord
 	has_many :players
 	has_many :rounds
+	has_many :messages
 	accepts_nested_attributes_for :players
 
 
