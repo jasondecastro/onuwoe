@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :cards
-  resources :games, except: [:new]
+  resources :games, except: [:new] do
+    resources :rounds
+  end
   resources :users
 
   post '/games/join', to: 'games#join', as: 'game_join'
