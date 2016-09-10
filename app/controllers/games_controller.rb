@@ -64,6 +64,7 @@ class GamesController < ApplicationController
 	  	else 
 	  		# if there are params, a form has been sent, and the results need to be displayed
 	  		@display = @game.current_round.result_page(current_user, params)
+	  		
 	  	end
 	  	binding.pry
 	  	

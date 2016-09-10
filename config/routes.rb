@@ -17,4 +17,6 @@ Rails.application.routes.draw do
   get '/signout' => 'sessions#destroy'
 
   get '/search', to: 'games#search', as: 'game_player_search'
+
+  mount_action ActionCable.server => '/cable'
 end
