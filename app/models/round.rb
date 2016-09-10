@@ -2,7 +2,7 @@ class Round < ApplicationRecord
   belongs_to :game
 
   def play
-    binding.pry
+    # binding.pry
     #refactor into case statement
     if self.number == 1
       round_1
@@ -15,13 +15,6 @@ class Round < ApplicationRecord
     @game = self.game
     if !@game.players.last.card
       @game.assign_cards
-    end
-
-    #@game.update(state: 1)
-    @game.players.each do |player|
-      if player.user_id == current_user.id
-        @player = player
-      end
     end
   end
 
