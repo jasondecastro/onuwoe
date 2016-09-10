@@ -33,6 +33,8 @@ class GamesController < ApplicationController
 	def show
     	@game = Game.find(params[:id])
 
+    	@nickname = Player.find_by(user_id: current_user.id)
+
     #once we add ActionCable, we will have to monitor if the game is full or not here
 	    if @game.full?
 	      redirect_to game_play_path
