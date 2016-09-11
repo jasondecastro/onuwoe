@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :cards
-  resources :games, except: [:new]
+  resources :games, except: [:new] do
+    resources :rounds
+  end
   resources :users
   # resources :players
 
@@ -16,4 +18,9 @@ Rails.application.routes.draw do
   get '/' => 'sessions#new', as: 'root'
   post '/signin' => 'sessions#create'
   get '/signout' => 'sessions#destroy'
+
+  get '/search', to: 'games#search', as: 'game_player_search'
+
+  resources :messages
+  mount ActionCable.server => '/cable'
 end

@@ -1,0 +1,7 @@
+<!-- seer: see one other card (radio button) -->
+
+<%= form_tag('/search', method: 'get') do %>
+	<%= label_tag(:players) %>
+	<%= collection_radio_buttons(:players, :player_id, @game.players.all, :id, :nickname) %>
+	<%= submit_tag "Choose Player" %>
+<% end %>

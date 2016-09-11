@@ -1,21 +1,22 @@
 class Game < ApplicationRecord
 	has_many :players
+	has_many :rounds
+	has_many :messages
+	accepts_nested_attributes_for :players
+
 
 	def full?
 		self.players.length == 7
 	end
 
 	def assign_cards
-		# binding.pry
 		cards = Card.all
 		shuffled_cards = cards.shuffle
 
 		self.players.each_with_index do |player, i|
 			player.card = shuffled_cards[i]
-			# binding.pry
 			player.save
 		end
-		# binding.pry
 		self.save
 	end
 
@@ -26,33 +27,30 @@ class Game < ApplicationRecord
 		end
 	end
 
-	def werewolves
-	  	self.players.joins(:card).where("role = 'Werewolf'")
+	def create_rounds
+		Round.create(game_id: self.id, number: 0, current: true, complete: false)
+		Round.create(game_id: self.id, number: 1, current: false, complete: false)
+		Round.create(game_id: self.id, number: 2, current: false, complete: false)
+		Round.create(game_id: self.id, number: 3, current: false, complete: false)
+		Round.create(game_id: self.id, number: 4, current: false, complete: false)
+		Round.create(game_id: self.id, number: 5, current: false, complete: false)
+		Round.create(game_id: self.id, number: 6, current: false, complete: false)
+		Round.create(game_id: self.id, number: 7, current: false, complete: false)
 	end
 
-	def werewolf_action(user)
-	  	werewolf_names = self.werewolves.collect {|werewolf| werewolf.nickname }
-	  	display_werewolves = werewolf_names.join(" and ")
-	  	if self.werewolves.include?(user.player)
-	  		"The Werewolves are #{display_werewolves}."
-	  	end
-	  	# if current_user is included in the array; display the other user
+	def current_round
+		self.rounds.where(current: true).first
 	end
 
-	def seer
-	  	self.players.joins(:card).where("role = 'Seer'")
-	end
+	def change_round
+  # binding.pry
+		old_round = current_round
+		old_round.update(complete: true, current: false)
 
-	def villagers
-	  	self.players.joins(:card).where("role = 'Villager'")
-	end
+		new_round_number = old_round.number + 1
+		new_round = self.rounds.where(number: new_round_number).first
 
-	def troublemaker
-	  	self.players.joins(:card).where("role = 'Troublemaker'")
-	end
-
-	def robber
-	  	self.players.joins(:card).where("role = 'Robber'")
+		new_round.update(current: true)
 	end
 
 	private
