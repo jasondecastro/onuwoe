@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # resources :players
 
   post '/players/nickname', to: 'players#show'
+  post '/games/:id/play', to: 'rounds#play'
 
   post '/games/join', to: 'games#join', as: 'game_join'
   get '/dashboard', to: 'games#new', as: 'new_game'
@@ -22,5 +23,7 @@ Rails.application.routes.draw do
   get '/search', to: 'games#search', as: 'game_player_search'
 
   resources :messages
+
+  post '/get_player', to: 'rounds#get_player'
   mount ActionCable.server => '/cable'
 end

@@ -2,6 +2,10 @@ class Round < ApplicationRecord
   belongs_to :game
 
   def play
+    ActionCable.server.broadcast 'rounds',
+        content: "BLAH BLAH",
+        role: "Seer",
+        players: "BLAH BLAH"
     # binding.pry
     #refactor into case statement
     if self.number == 1
@@ -59,11 +63,18 @@ class Round < ApplicationRecord
 
   def seer
       self.game.players.joins(:card).where("role = 'Seer'")
+      ActionCable.server.broadcast 'rounds',
+        content: "BLAH BLAH",
+        role: "Seer",
+        players: "BLAH BLAH"
   end
 
   def seer_action(user)
     if self.seer.include?(user.player)
-      "You are the Seer, select the card you wish to see."
+      ActionCable.server.broadcast 'rounds',
+        content: "BLAH BLAH",
+        role: "Seer",
+        players: "BLAH BLAH"
     end
   end
 
@@ -78,4 +89,13 @@ class Round < ApplicationRecord
   def robber
       self.game.players.joins(:card).where("role = 'Robber'")
   end
+
+  def robber_action(user)
+   if self.robber.include?(user.player)
+     "You are the Robber, select the card you wish to steal."
+     # Form has to render
+   else
+     "The Robber is being a rascally rascal. That rascal!"
+   end
+ end
 end
