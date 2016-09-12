@@ -79,12 +79,47 @@ class GamesController < ApplicationController
 
     end
 
-    def search
-    	binding.pry
-    	player = Player.find(params[:players][:player_id])
-    	role = player.card.role
+    def seer
+    	player = Player.find(params.keys[0])
+    	role = player.final_card
     	name = player.nickname
-    	redirect_to game_play_path(current_game, role: role, name: name)
+
+    	respond_to do |format| 
+    		format.json { render json: {role: role, name: name}}
+    	end
+    end
+
+    def robber
+    	robbed_player = Player.find(params.keys[0])
+    	robbed_player_role = robbed_player.final_card
+    	robbed_player_name = robbed_player.nickname
+
+    	robber = current_user.player
+    	robber_role = robber.final_card
+
+    	robbed_player.update(final_card: robber_role)
+    	robber.update(final_card: robbed_player_role)
+
+    	respond_to do |format| 
+    		format.json { render json: {robber: robber.final_card, robbed: robbed_player.final_card}}
+    	end
+    end
+
+    def troublemaker
+    	first = Player.find(params.keys[0])
+    	first_role = first.final_card
+    	first_name = first.nickname
+
+    	second = Player.find(params.keys[1])
+    	second_role = second.final_card
+    	second_name = second.nickname
+
+    	first.update(final_card: second_role)
+    	second.update(final_card: first_role)
+
+    	respond_to do |format| 
+    		format.json { render json: {first: first_name, second: second_name}}
+    	end
     end
 
 	def destroy

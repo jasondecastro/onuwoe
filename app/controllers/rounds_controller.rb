@@ -20,34 +20,45 @@ class RoundsController < ApplicationController
   end
 
   def play
+    @game = current_game
+    # LOOK AT CARDS
     ActionCable.server.broadcast 'rounds',
-          content: "BLAH BLAH",
-          role: current_user.player.card.role,
-          players: "BLAH BLAH",
+          players: @game.players,
+          game: @game.id.to_s,
           round: "1"
     head :ok
-    sleep(30)
+    sleep(10)
+    # WEREWOLVES
     ActionCable.server.broadcast 'rounds',
-          content: "BLAH BLAH",
-          role: current_user.player.card.role,
-          players: "BLAH BLAH",
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
           round: "2"
     head :ok
-    sleep(30)
+    sleep(10)
+    # SEER
     ActionCable.server.broadcast 'rounds',
-          content: "BLAH BLAH",
-          role: current_user.player.card.role,
-          players: "BLAH BLAH",
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
           round: "3"
     head :ok
-    sleep(30)
+    sleep(10)
+    # ROBBER
     ActionCable.server.broadcast 'rounds',
-          content: "BLAH BLAH",
-          role: current_user.player.card.role,
-          players: "BLAH BLAH",
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
           round: "4"
     head :ok
-    sleep(30)
+    sleep(10)
+    # TROUBLEMAKER
+    ActionCable.server.broadcast 'rounds',
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
+          round: "5"
+    head :ok
   end
 
   def round2

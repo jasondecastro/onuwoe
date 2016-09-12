@@ -20,7 +20,9 @@ Rails.application.routes.draw do
   post '/signin' => 'sessions#create'
   get '/signout' => 'sessions#destroy'
 
-  get '/search', to: 'games#search', as: 'game_player_search'
+  post '/actions/seer', to: 'games#seer'
+  post '/actions/robber', to: 'games#robber'
+  post '/actions/troublemaker', to: 'games#troublemaker'
 
   resources :messages
 
