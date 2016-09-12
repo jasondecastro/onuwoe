@@ -122,6 +122,16 @@ class GamesController < ApplicationController
     	end
     end
 
+    def vote
+    	player = Player.find(params.keys[0])
+    	role = player.final_card
+    	name = player.nickname
+
+    	respond_to do |format| 
+    		format.json { render json: {role: role, name: name}}
+    	end
+    end
+
 	def destroy
 		Game.destroy_all
 	end

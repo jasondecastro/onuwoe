@@ -27,7 +27,7 @@ class RoundsController < ApplicationController
           game: @game.id.to_s,
           round: "1"
     head :ok
-    sleep(10)
+    sleep(1)
     # WEREWOLVES
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
@@ -35,7 +35,7 @@ class RoundsController < ApplicationController
           user: session[:user_id],
           round: "2"
     head :ok
-    sleep(10)
+    sleep(1)
     # SEER
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
@@ -43,7 +43,7 @@ class RoundsController < ApplicationController
           user: session[:user_id],
           round: "3"
     head :ok
-    sleep(10)
+    sleep(1)
     # ROBBER
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
@@ -51,7 +51,7 @@ class RoundsController < ApplicationController
           user: session[:user_id],
           round: "4"
     head :ok
-    sleep(10)
+    sleep(1)
     # TROUBLEMAKER
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
@@ -59,22 +59,22 @@ class RoundsController < ApplicationController
           user: session[:user_id],
           round: "5"
     head :ok
-    sleep(5.minutes)
+    sleep(1)
     # DISCUSSION TIME
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
           game: @game.id.to_s,
           user: session[:user_id],
-          round: "5"
+          round: "6"
     head :ok
-    sleep(30)
+    sleep(1)
     # VOTING
-    ActionCable.server.broadcast 'rounds',
-          players: @game.players,
-          game: @game.id.to_s,
-          user: session[:user_id],
-          round: "7"
-    head :ok
+    # ActionCable.server.broadcast 'rounds',
+    #       players: @game.players,
+    #       game: @game.id.to_s,
+    #       user: session[:user_id],
+    #       round: "7"
+    # head :ok
   end
 
   def round2

@@ -86,19 +86,39 @@ $.ajax({
             })
           } else {
             $('#round').append("<p>The Troublemaker is performing his/her action.</p>")
-          } else if (data.round == "6") { // discussion time
-
-          } else if (data.round == "7") { // voting
-            $('#round').append(`
-              <% @game = Game.find(1) %>
-              <form id="troublemaker-form" action="/actions/troublemaker" method="post" data-remote="true" data-type="json">
-              <% @game.players.each do |player| %>
-                <input type="radio" id="<%=player.id%>" name="<%=player.id%>"><%= player.nickname %></input><br />
-              <% end %>
-              <input type="submit" value="Perform Action"></input>
-              </form>
-            `)
           }
+        } else if (data.round == "6") { // discussion time
+          $('#round').html("<strong>Round: 6</strong>")
+          $('#round').append("<p>Time to discuss!</p>")
+
+          
+    //       $('#round').append(
+    // <%= binding.pry %>
+    //       $.ajax({
+    //         type: 'GET',
+    //         url: '/games/:id',
+    //         success:
+    //           function(data) {
+    // <%= binding.pry %>
+    //               return $('.card-text').append(this.renderMessage(data))
+    //             },
+
+    //             renderMessage: function(data) {
+    //               return "<p><strong>" + data.player + "</strong>: " + data.message + "</p>"
+    //             }
+    //       })
+    //     })
+          // } else if (data.round == "7") { // voting
+          //   $('#round').append(`
+          //     <% @game = Game.find(1) %>
+          //     <form id="voting-form" action="/actions/vote" method="post" data-remote="true" data-type="json">
+          //     <% @game.players.each do |player| %>
+          //       <input type="radio" id="<%=player.id%>" name="<%=player.id%>"><%= player.nickname %></input><br />
+          //     <% end %>
+          //     <input type="submit" value="Perform Action"></input>
+          //     </form>
+          //   `)
+          // }
         }
       }
     })
