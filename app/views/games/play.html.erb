@@ -1,27 +1,15 @@
-<p id="role">You are the <strong><%= @player.card.role %></strong></p>
 
+<center>
+<p id="hidden-role"><%= current_user.player.card.role %></p>
 <p id="round"></p>
+</center>
 
-<div id="seer">
-
-</div>
-
-<div id="robber">
-  
-
-</div>
-
-<div id="villager">
-  
-
-</div>
 
 <script>
-$.ajax({
-  url: '/games/1/play',
-  type: 'POST',
-  data: {role: '<%= current_user.player.card.role %>'},
-  dataType: 'json'
-});
-
+  $.ajax({
+    url: '/games/1/play',
+    type: 'POST',
+    data: {role: '<%= current_user.player.card.role %>'},
+    dataType: 'json'
+  });
 </script>

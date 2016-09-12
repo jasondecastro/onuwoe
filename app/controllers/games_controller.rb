@@ -58,6 +58,7 @@ class GamesController < ApplicationController
 
 	def play
 		@game = current_game
+		@message = Message.new
 
 		@game.players.each do |player|
 	      if player.user_id == current_user.id
@@ -101,7 +102,7 @@ class GamesController < ApplicationController
     	robber.update(final_card: robbed_player_role)
 
     	respond_to do |format| 
-    		format.json { render json: {robber: robber.final_card, robbed: robbed_player.final_card}}
+    		format.json { render json: {robbed_name: robbed_player_name, robbed: robbed_player.final_card}}
     	end
     end
 
