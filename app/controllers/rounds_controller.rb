@@ -59,6 +59,22 @@ class RoundsController < ApplicationController
           user: session[:user_id],
           round: "5"
     head :ok
+    sleep(5.minutes)
+    # DISCUSSION TIME
+    ActionCable.server.broadcast 'rounds',
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
+          round: "5"
+    head :ok
+    sleep(30)
+    # VOTING
+    ActionCable.server.broadcast 'rounds',
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
+          round: "7"
+    head :ok
   end
 
   def round2
