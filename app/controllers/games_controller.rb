@@ -71,7 +71,7 @@ class GamesController < ApplicationController
 	  		@display = @game.current_round.result_page(current_user, params)
 	  		
 	  	end
-	  	binding.pry
+	  	# binding.pry
 	  	
 	  	params[:name]
 	  	params[:role]

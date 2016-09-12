@@ -38,10 +38,39 @@ class Round < ApplicationRecord
   end
 
   def round_2
-    binding.pry
-    @game = current_game
-    @round = @game.current_round
+    # binding.pry
+    
     werewolf_action(current_user)
+  end
+
+  def round_3
+    seer_action(current_user)
+  end
+
+  def round_4
+    robber_action(current_user)
+  end
+
+  def round_5
+    troublemaker_action(current_user)
+  end
+
+  def round_6
+    # voting
+  end
+
+  def round_7
+    # Display results
+    # Who was voted?
+    # Which team won?
+  end
+
+  def vote
+    # render voting form for all players
+  end
+
+  def game_results
+    # display results
   end
 
   def werewolves
@@ -54,6 +83,8 @@ class Round < ApplicationRecord
       display_werewolves = werewolf_names.join(" and ")
       if self.werewolves.include?(user.player)
         "The Werewolves are #{display_werewolves}."
+      else
+        "The Werewolves are finding each other."
       end
   end
 
@@ -64,6 +95,9 @@ class Round < ApplicationRecord
   def seer_action(user)
     if self.seer.include?(user.player)
       "You are the Seer, select the card you wish to see."
+      # Form has to render
+    else
+      "The Seer is being omniscient, sort of."
     end
   end
 
@@ -75,7 +109,26 @@ class Round < ApplicationRecord
       self.game.players.joins(:card).where("role = 'Troublemaker'")
   end
 
+  def troublemaker_action(user)
+    if self.troublemaker.include?(user.player)
+      "You are the Troublemaker, switch two cards (not your own)."
+      # Form has to render
+    else
+      "The Troublemaker is being a sneaky sneaker. That sneak!"
+    end
+  end
+
   def robber
       self.game.players.joins(:card).where("role = 'Robber'")
   end
+
+  def robber_action(user)
+    if self.robber.include?(user.player)
+      "You are the Robber, select the card you wish to steal."
+      # Form has to render
+    else
+      "The Robber is being a rascally rascal. That rascal!"
+    end
+  end
+
 end
