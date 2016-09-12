@@ -29,6 +29,8 @@ class GamesController < ApplicationController
 			@random_game.players << @player
 		end
 
+		binding.pry
+
 		redirect_to game_path(@random_game)
 	end
 
@@ -71,7 +73,6 @@ class GamesController < ApplicationController
 	  		@display = @game.current_round.result_page(current_user, params)
 	  		
 	  	end
-	  	# binding.pry
 	  	
 	  	params[:name]
 	  	params[:role]

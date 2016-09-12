@@ -94,10 +94,7 @@ class Round < ApplicationRecord
 
   def seer_action(user)
     if self.seer.include?(user.player)
-      "You are the Seer, select the card you wish to see."
-      # Form has to render
-    else
-      "The Seer is being omniscient, sort of."
+      "Youa re the seer"
     end
   end
 
@@ -123,12 +120,11 @@ class Round < ApplicationRecord
   end
 
   def robber_action(user)
-    if self.robber.include?(user.player)
-      "You are the Robber, select the card you wish to steal."
-      # Form has to render
-    else
-      "The Robber is being a rascally rascal. That rascal!"
-    end
-  end
-
+   if self.robber.include?(user.player)
+     "You are the Robber, select the card you wish to steal."
+     # Form has to render
+   else
+     "The Robber is being a rascally rascal. That rascal!"
+   end
+ end
 end
