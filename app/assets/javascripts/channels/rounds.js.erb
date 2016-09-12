@@ -1,0 +1,107 @@
+$.ajax({
+  url: '/get_player',
+  type: 'POST',
+  success: function(player) {
+    App.cable.subscriptions.create({channel: 'RoundsChannel', user_id: player.user_id, role: player.role}, {
+      received: function(data) {
+        if (data.round == "1") {
+          $('#round').html("<strong>Round: 1</strong>")
+          $('#round').append("<p>Take a look at your card. You cannot see it again.</p>")
+        } else if (data.round == "2") {
+          $('#role').html("")
+          $('#round').html("<strong>Round: 2</strong>")
+          if (player.role == "Werewolf") {
+            $('#round').append("<p>Please perform your action as the Werewolf.</p>")
+            $('#round').append(`
+              <% @game = Game.find(1) %>
+
+              <% @game.players.each do | player | %>
+                <% if player.card.role == "Werewolf" %>
+                  <li><%= player.nickname %></li>
+                <% end %>
+              <% end %>
+            `)
+          } else {
+            $('#round').append("<p>The werewolves are performing their actions.</p>")
+          }
+        } else if (data.round == "3") {
+          $('#round').html("<strong>Round: 3</strong>")
+          if (player.role == "Seer") {
+            $('#round').append("<p>Please perform your action as the Seer.</p>")
+            $('#round').append(`
+              <% @game = Game.find(1) %>
+              <form id="seer-form" action="/actions/seer" method="post" data-remote="true" data-type="json">
+              <% @game.players.each do |player| %>
+                <input  type="radio" id="<%=player.id%>" name="<%=player.id%>"><%= player.nickname %></input><br />
+              <% end %>
+              <input type="submit" value="Perform Action"></input>
+              </form>
+            `)
+
+            $('#seer-form').on('ajax:complete', function(e, request, status) {
+              $('#seer-form').hide()
+              $('#round').append("<p><strong>" + request.responseJSON.name + "</strong> is the <strong>" + request.responseJSON.role + "!</strong></p>")
+            })
+          } else {
+            $('#round').append("<p>The Seer is performing his/her action.</p>")
+          }
+        } else if (data.round == "4") {
+          $('#round').html("<strong>Round: 4</strong>")
+          if (player.role == "Robber") {
+            $('#round').append("<p>Please perform your action as the Robber.</p>")
+            $('#round').append(`
+              <% @game = Game.find(1) %>
+              <form id="robber-form" action="/actions/robber" method="post" data-remote="true" data-type="json">
+              <% @game.players.each do |player| %>
+                <input type="radio" id="<%=player.id%>" name="<%=player.id%>"><%= player.nickname %></input><br />
+              <% end %>
+              <input type="submit" value="Perform Action"></input>
+              </form>
+            `)
+
+            $('#robber-form').on('ajax:complete', function(e, request, status) {
+              $('#robber-form').hide()
+            })
+
+          } else {
+            $('#round').append("<p>The Robber is performing his/her action.</p>")
+          }
+        } else if (data.round == "5") {
+          $('#round').html("<strong>Round: 5</strong>")
+          if (player.role == "Troublemaker") {
+            $('#round').append("<p>Please perform your action as the Troublemaker.</p>")
+            $('#round').append(`
+              <% @game = Game.find(1) %>
+              <form id="troublemaker-form" action="/actions/troublemaker" method="post" data-remote="true" data-type="json">
+              <% @game.players.each do |player| %>
+                <input type="radio" id="<%=player.id%>" name="<%=player.id%>"><%= player.nickname %></input><br />
+              <% end %>
+              <input type="submit" value="Perform Action"></input>
+              </form>
+            `)
+
+            $('#troublemaker-form').on('ajax:complete', function(e, request, status) {
+              $('#troublemaker-form').hide()
+              $('#round').append('<p>You have switched <strong>' + request.responseJSON.first + '\'s</strong> card with <strong>'+ request.responseJSON.second + '\'s</strong> card!')
+            })
+          } else {
+            $('#round').append("<p>The Troublemaker is performing his/her action.</p>")
+          } else if (data.round == "6") { // discussion time
+
+          } else if (data.round == "7") { // voting
+            $('#round').append(`
+              <% @game = Game.find(1) %>
+              <form id="troublemaker-form" action="/actions/troublemaker" method="post" data-remote="true" data-type="json">
+              <% @game.players.each do |player| %>
+                <input type="radio" id="<%=player.id%>" name="<%=player.id%>"><%= player.nickname %></input><br />
+              <% end %>
+              <input type="submit" value="Perform Action"></input>
+              </form>
+            `)
+          }
+        }
+      }
+    })
+  },
+})
+

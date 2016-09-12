@@ -1,2 +1,27 @@
-<div id="rounds"><%= render 'seer_results' %></div>
+<p id="role">You are the <strong><%= @player.card.role %></strong></p>
 
+<p id="round"></p>
+
+<div id="seer">
+
+</div>
+
+<div id="robber">
+  
+
+</div>
+
+<div id="villager">
+  
+
+</div>
+
+<script>
+$.ajax({
+  url: '/games/1/play',
+  type: 'POST',
+  data: {role: '<%= current_user.player.card.role %>'},
+  dataType: 'json'
+});
+
+</script>

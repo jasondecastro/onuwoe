@@ -9,6 +9,9 @@ Your card: <%= @player.card.role %><br>
   Your action: <%= @player.card.action  %>
 <% end %>
 
+<p id="player_id"><%= @player.id %></p>
+<p id="role"><%= @player.card.role %></p>
+
 <!-- depending on round, action renders -->
 <!-- render '#{@display}' -->
 

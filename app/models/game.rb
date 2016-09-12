@@ -15,6 +15,7 @@ class Game < ApplicationRecord
 
 		self.players.each_with_index do |player, i|
 			player.card = shuffled_cards[i]
+			player.final_card = shuffled_cards[i].role
 			player.save
 		end
 		self.save
