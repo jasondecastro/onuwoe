@@ -23,7 +23,8 @@ Rails.application.routes.draw do
   post '/actions/seer', to: 'games#seer'
   post '/actions/robber', to: 'games#robber'
   post '/actions/troublemaker', to: 'games#troublemaker'
-
+  post '/actions/vote', to: 'games#vote'
+  
   resources :messages
 
   post '/get_player', to: 'rounds#get_player'
