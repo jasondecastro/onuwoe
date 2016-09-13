@@ -24,14 +24,6 @@ class RoundsController < ApplicationController
 
     @message = Message.new
 
-    # LOBBY
-    ActionCable.server.broadcast 'rounds',
-          players: @game.players,
-          game: @game.id.to_s,
-          round: "0",
-          html_result: resultify('/games/show.html.erb')
-    head :ok
-    sleep(30)
     # LOOK AT CARDS
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
@@ -46,7 +38,7 @@ class RoundsController < ApplicationController
           user: session[:user_id],
           round: "2"
     head :ok
-    sleep(3)
+    sleep(20)
     # SEER
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
@@ -54,7 +46,7 @@ class RoundsController < ApplicationController
           user: session[:user_id],
           round: "3"
     head :ok
-    sleep(1)
+    sleep(20)
     # ROBBER
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
@@ -62,13 +54,39 @@ class RoundsController < ApplicationController
           user: session[:user_id],
           round: "4"
     head :ok
-    sleep(1)
+    sleep(20)
     # TROUBLEMAKER
     ActionCable.server.broadcast 'rounds',
           players: @game.players,
           game: @game.id.to_s,
           user: session[:user_id],
           round: "5"
+    head :ok
+    sleep(20)
+    # VOTING
+    ActionCable.server.broadcast 'rounds',
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
+          round: "7"
+    head :ok
+    sleep(20)
+    # VOTE RESULT
+    ActionCable.server.broadcast 'rounds',
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
+          round: "8",
+          results: @game.players.where(votes: @game.players.maximum('votes')).last.nickname
+    head :ok
+    sleep(20)
+    # WINNERS
+    ActionCable.server.broadcast 'rounds',
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
+          round: "9",
+          winners: @game.players.where(votes: @game.players.maximum('votes')).last.card.team
     head :ok
   end
 

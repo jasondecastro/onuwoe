@@ -16,23 +16,6 @@ class GamesController < ApplicationController
 		redirect_to game_path(@game)
 	end
 
-	def join
-		@random_game = Game.where('state = 0').first
-
-		if @random_game == nil
-			@random_game = Game.create(state: 0, host: current_user)
-		end
-
-		@player = Player.find_or_create_by(user_id: current_user.id)
-		@player.nickname = current_user.name
-		unless @random_game.players.include?(@player)
-			@random_game.players << @player
-		end
-
-		binding.pry
-
-		redirect_to game_path(@random_game)
-	end
 
 	def show
 
@@ -106,7 +89,8 @@ class GamesController < ApplicationController
     	end
     end
 
-    def troublemaker
+    def troublemaker  
+
     	first = Player.find(params.keys[0])
     	first_role = first.final_card
     	first_name = first.nickname
@@ -122,6 +106,19 @@ class GamesController < ApplicationController
     		format.json { render json: {first: first_name, second: second_name}}
     	end
     end
+
+    def vote
+     	player = Player.find(params.keys[0])
+     	role = player.final_card
+     	name = player.nickname
+
+     	player.votes += 1
+     	player.save
+
+     	respond_to do |format| 
+         format.json { render json: {name: name}}
+     	end
+   end
 
 	def destroy
 		Game.destroy_all

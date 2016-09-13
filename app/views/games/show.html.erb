@@ -1,1 +1,44 @@
-show.html.erb
+<div class="container" style="padding-top:28px;">
+  <center>
+   <!--  <h2>LOBBY</h2>
+    <br> -->
+  <div class="nickname">
+    <div class="input-group">
+      <center>
+        <%= form_tag('/players/nickname', remote: true, 'data-type' => 'json', class: "form-stuff") do %>
+
+          <%= text_field_tag :nickname, nil, style: "width:232px;", class:"form-control", placeholder: "Nickname", id:"nickname" %>
+         
+          <span class="input-group-btn">
+            <%= submit_tag "Submit", class: "btn btn-primary" %>
+          </span>
+        <% end %>
+      </center>
+      <br>
+    </div>
+  </div>
+
+  <div class="card" style="width:301px;">
+  <h3 class="card-header" style="margin-top:0px;">Chat</h3>
+  <div class="card-block">
+    <p class="card-text" style="display: inline; text-align: left; padding-left:5px;">
+    </p>
+    <div class="input-group">
+      <center>
+        <input style="width:215px;" type="text" class="form-control" placeholder="Message">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button">Send</button>
+        </span>
+      </center>
+      <br>
+    </div>
+  </div>
+</div>
+
+<div style="padding-top:10px;">
+          <button id="start" class="btn btn-lg btn-info btn-block" style="width: 200px; background-color: grey; border-color: grey;" disabled>Start </button>
+
+</div>
+    
+  </center>
+</div>

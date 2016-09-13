@@ -1,16 +1,14 @@
 App.cable.subscriptions.create({channel: 'RoundsChannel'}, {
 received: function(data) {
   var player = $('#hidden-role').text()
-  if (data.round == "0") {
-    $('#round').append(data.html_result)
-  } else if (data.round == "1") {
+  if (data.round == "1") {
     $('#round').html("<h1><strong>Round: 1</strong></h1>")
     $('#round').append("<br><p>You are the <strong>" + player + "</strong>.</p>")
     $('#round').append("<p>Take a look at your card. You cannot see it again.</p>")
   } else if (data.round == "2") {
     $('#role').html("")
     $('#round').html("<h1><strong>Round: 2</strong></h1>")
-    if (player.role == "Werewolf") {
+    if (player == "Werewolf") {
       $('#round').append(`
         <% @game = Game.find(1) %>
 
@@ -27,7 +25,7 @@ received: function(data) {
     }
   } else if (data.round == "3") {
     $('#round').html("<h1><strong>Round: 3</strong></h1>")
-    if (player.role == "Seer") {
+    if (player == "Seer") {
       $('#round').append("<p>Please perform your action as the Seer.</p>")
       $('#round').append(`
         <% @game = Game.find(1) %>
@@ -49,7 +47,7 @@ received: function(data) {
     }
   } else if (data.round == "4") {
     $('#round').html("<h1><strong>Round: 4</strong></h1>")
-    if (player.role == "Robber") {
+    if (player == "Robber") {
       $('#round').append("<p>Please perform your action as the Robber.</p>")
       $('#round').append(`
         <% @game = Game.find(1) %>
@@ -72,7 +70,7 @@ received: function(data) {
     }
   } else if (data.round == "5") {
     $('#round').html("<h1><strong>Round: 5</strong></h1>")
-    if (player.role == "Troublemaker") {
+    if (player == "Troublemaker") {
       $('#round').append("<p>Please perform your action as the Troublemaker.</p>")
       $('#round').append(`
         <% @game = Game.find(1) %>
@@ -91,6 +89,37 @@ received: function(data) {
       })
     } else {
       $('#round').append("<p>The Troublemaker is performing his/her action.</p>")
+    }
+  } else if (data.round == "7") {
+    $('#round').html("<h1><strong>Round: 7</strong></h1>")
+    $('#round').append(`
+      <form id="vote-form" action="/actions/vote" method="post" data-remote="true" data-type="json">
+        <% @game.players.each do |player| %>
+          <input type="radio" id="<%=player.id%>" name="<%=player.id%>"> <%= player.nickname %></input><br />
+        <% end %>
+        <br>
+        <input type="submit" class="btn btn-primary" value="Vote"></input>
+      </form>
+      `)
+
+    $('#vote-form').on('ajax:complete', function(e, request, status) {
+        $('#vote-form').hide()
+        $('#round').append('<p>You have voted for <strong>' + request.responseJSON.name + '</strong>!')
+      })
+  } else if (data.round == "8") {
+    $('#round').html("<h1><strong>Round: 8</strong></h1>")
+    $('#round').append(`<h2>The moment of truth...</h2>
+      <br>The people have decided to kill...<br>
+      <marquee><h1>${data.results}</h1></marquee>
+      `)
+  } else if (data.round == "9") {
+    $('#round').html("<h1><strong>Round: 9</strong></h1>")
+    $('#round').append(`<h2>AND THE <span style="color: pink;">WINNING</span> TEAM IS...</h2>`)
+    if (data.winners == "Villager") {
+      $('#round').append(`<marquee><h1 style="color:red; font-size:72px;">WEREWOLVES</h1></marquee>`)
+    } else {
+      $('#round').append(`<marquee><h1 style="color:green; font-size:72px;">VILLAGERS</h1></marquee>`)
+      $('#round').append("<p>You can now leave. <br>Bye felicia.</p>")
     }
   }
 }
