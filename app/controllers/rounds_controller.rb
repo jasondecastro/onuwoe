@@ -20,6 +20,7 @@ class RoundsController < ApplicationController
   end
 
   def play
+    binding.pry
     @game = current_game
 
     @message = Message.new
@@ -80,12 +81,13 @@ class RoundsController < ApplicationController
     head :ok
     sleep(10)
     # VOTING
-    # ActionCable.server.broadcast 'rounds',
-    #       players: @game.players,
-    #       game: @game.id.to_s,
-    #       user: session[:user_id],
-    #       round: "7"
-    # head :ok
+    ActionCable.server.broadcast 'rounds',
+          players: @game.players,
+          game: @game.id.to_s,
+          user: session[:user_id],
+          html_result: resultify('/games/voting_form.html.erb'),
+          round: "7"
+    head :ok
   end
 
   private
