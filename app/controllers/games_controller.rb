@@ -7,36 +7,32 @@ class GamesController < ApplicationController
 	end
 
 	def create
-		@game = Game.create(state: 0, host: current_user.name)
-		@player = Player.create(user_id: current_user.id, nickname: current_user.name)
-		@game.players << @player
-		@game.create_rounds
-		@game.save
+		game = GameGenerator.create_game(current_user)
 
-		redirect_to game_path(@game)
+		redirect_to game_path(game)
 	end
 
 
 	def show
-
 	  	@game = Game.find(params[:id])
-
 	    @nickname = Player.find_by(user_id: current_user.id)
-
 	    @message = Message.new
-
   #once we add ActionCable, we will have to monitor if the game is full or not here
-	    if @game.full? && @game.players.first.card == nil
-				@game.current_round.round_1
-				@game.players.each do |player|
-					if player.user_id == current_user.id
-						@player = player
-					end
-				end
-			elsif @game.full?
-				@game.change_round
-				redirect_to game_round_path(game_id: @game.id, id: @game.current_round.id)
+
+  		# game = GameGenerator.wait_or_start_game
+
+	    if @game.full_and_no_cards?
+			@game.assign_cards
+			# @game.players.each do |player|
+			# 	if player.user_id == current_user.id
+			# 		@player = player
+			# 	end
+			# end
+		elsif @game.full?
+			@game.change_round
 	    end
+
+	    redirect_to game_round_path(game_id: @game.id, id: @game.current_round.id)
 	end
 
 	def play
@@ -52,12 +48,12 @@ class GamesController < ApplicationController
 	  	if params[:name] == nil
 	  		#if there are no params, a form needs to be displayed
 	  		@display = @game.current_round.display_page(current_user)
-	  	else 
+	  	else
 	  		# if there are params, a form has been sent, and the results need to be displayed
 	  		@display = @game.current_round.result_page(current_user, params)
-	  		
+
 	  	end
-	  	
+
 	  	params[:name]
 	  	params[:role]
 
@@ -68,7 +64,7 @@ class GamesController < ApplicationController
     	role = player.final_card
     	name = player.nickname
 
-    	respond_to do |format| 
+    	respond_to do |format|
     		format.json { render json: {role: role, name: name}}
     	end
     end
@@ -84,12 +80,12 @@ class GamesController < ApplicationController
     	robbed_player.update(final_card: robber_role)
     	robber.update(final_card: robbed_player_role)
 
-    	respond_to do |format| 
+    	respond_to do |format|
     		format.json { render json: {robbed_name: robbed_player_name, robbed: robbed_player.final_card}}
     	end
     end
 
-    def troublemaker  
+    def troublemaker
 
     	first = Player.find(params.keys[0])
     	first_role = first.final_card
@@ -102,7 +98,7 @@ class GamesController < ApplicationController
     	first.update(final_card: second_role)
     	second.update(final_card: first_role)
 
-    	respond_to do |format| 
+    	respond_to do |format|
     		format.json { render json: {first: first_name, second: second_name}}
     	end
     end
@@ -115,7 +111,7 @@ class GamesController < ApplicationController
      	player.votes += 1
      	player.save
 
-     	respond_to do |format| 
+     	respond_to do |format|
          format.json { render json: {name: name}}
      	end
    end

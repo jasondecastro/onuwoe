@@ -4,12 +4,12 @@ class Game < ApplicationRecord
 	has_many :messages
 	accepts_nested_attributes_for :players
 
-
 	def full?
 		self.players.length == 7
 	end
 
 	def assign_cards
+		# binding.pry
 		cards = Card.all
 		shuffled_cards = cards.shuffle
 
@@ -21,12 +21,20 @@ class Game < ApplicationRecord
 		self.save
 	end
 
-	def start_game
-		if self.full?
-			self.assign_cards
-			self.save
-		end
+	def cards_assigned?
+		self.players.first.card == nil
 	end
+
+	def full_and_no_cards?
+		self.cards_assigned? && self.full?
+	end
+
+	# def start_game
+	# 	if self.full?
+	# 		self.assign_cards
+	# 		self.save
+	# 	end
+	# end
 
 	def create_rounds
 		Round.create(game_id: self.id, number: 0, current: true, complete: false)
