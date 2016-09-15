@@ -14,45 +14,39 @@ class GamesController < ApplicationController
 
 
 	def show
-	  	@game = Game.find(params[:id])
-	    @nickname = Player.find_by(user_id: current_user.id)
-	    @message = Message.new
+	  @game = Game.find(params[:id])
+	  @nickname = Player.find_by(user_id: current_user.id)
+	  @message = Message.new
 
-	    if @game.full_and_no_cards?
+	  if @game.full_and_no_cards?
 			@game.assign_cards
 		elsif @game.full?
 			@game.change_round
-	    end
+	  end
 
-	    redirect_to game_round_path(game_id: @game.id, id: @game.current_round.id)
+	  redirect_to game_round_path(game_id: @game.id, id: @game.current_round.id)
 	end
 
 	def play
 		@game = current_game
 		@message = Message.new
-
-	  	GameGenerator.current_user_player(@game, current_user)
-		# @game.players.each do |player|
-	 #      if player.user_id == current_user.id
-	 #        @player = player
-	 #      end
-	 #  	end
+	  @player = GameGenerator.current_user_player(@game, current_user)
 
 
 	 	# Is this used?
-	  	if params[:name] == nil
-	  		#if there are no params, a form needs to be displayed
-	  		@display = @game.current_round.display_page(current_user)
-	  	else
-	  		# if there are params, a form has been sent, and the results need to be displayed
-	  		@display = @game.current_round.result_page(current_user, params)
-
-	  	end
+	  	# if params[:name] == nil
+	  	# 	#if there are no params, a form needs to be displayed
+	  	# 	@display = @game.current_round.display_page(current_user)
+	  	# else
+	  	# 	# if there are params, a form has been sent, and the results need to be displayed
+	  	# 	@display = @game.current_round.result_page(current_user, params)
+			#
+	  	# end
     end
 
     def seer
     	player = Player.find(params.keys[0])
-    	# CardActionGenerator.seer_action
+    	# CardActionGenerator.seer_action(params)
     	role = player.final_card
     	name = player.nickname
 

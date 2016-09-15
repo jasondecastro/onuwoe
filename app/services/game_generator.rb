@@ -8,13 +8,14 @@ class GameGenerator
     game
   end
 
- #  def self.current_user_player(game, current_user)
-	# game.players.each do |player|
- #      if player.user_id == current_user.id
- #        @player = player
- #      end
- #  	end
- #  end
+  def self.current_user_player(game, current_user)
+	   game.players.each do |player|
+      if player.user_id == current_user.id
+        @player = player
+      end
+  	end
+    @player
+  end
 
  #  def self.display_form_for_action(params = {})
  #  end

@@ -9,7 +9,10 @@ class Game < ApplicationRecord
 	end
 
 	def assign_cards
-		# binding.pry
+		if Card.all = []
+			CardGenerator.create_cards
+		end
+
 		cards = Card.all
 		shuffled_cards = cards.shuffle
 
