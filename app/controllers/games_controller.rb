@@ -17,17 +17,9 @@ class GamesController < ApplicationController
 	  	@game = Game.find(params[:id])
 	    @nickname = Player.find_by(user_id: current_user.id)
 	    @message = Message.new
-  #once we add ActionCable, we will have to monitor if the game is full or not here
-
-  		# game = GameGenerator.wait_or_start_game
 
 	    if @game.full_and_no_cards?
 			@game.assign_cards
-			# @game.players.each do |player|
-			# 	if player.user_id == current_user.id
-			# 		@player = player
-			# 	end
-			# end
 		elsif @game.full?
 			@game.change_round
 	    end
@@ -39,12 +31,15 @@ class GamesController < ApplicationController
 		@game = current_game
 		@message = Message.new
 
-		@game.players.each do |player|
-	      if player.user_id == current_user.id
-	        @player = player
-	      end
-	  	end
+	  	GameGenerator.current_user_player(@game, current_user)
+		# @game.players.each do |player|
+	 #      if player.user_id == current_user.id
+	 #        @player = player
+	 #      end
+	 #  	end
 
+
+	 	# Is this used?
 	  	if params[:name] == nil
 	  		#if there are no params, a form needs to be displayed
 	  		@display = @game.current_round.display_page(current_user)
@@ -53,14 +48,11 @@ class GamesController < ApplicationController
 	  		@display = @game.current_round.result_page(current_user, params)
 
 	  	end
-
-	  	params[:name]
-	  	params[:role]
-
     end
 
     def seer
     	player = Player.find(params.keys[0])
+    	# CardActionGenerator.seer_action
     	role = player.final_card
     	name = player.nickname
 
@@ -69,6 +61,7 @@ class GamesController < ApplicationController
     	end
     end
 
+    # CardActionGenerator.some_action
     def robber
     	robbed_player = Player.find(params.keys[0])
     	robbed_player_role = robbed_player.final_card

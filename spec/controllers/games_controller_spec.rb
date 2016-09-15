@@ -52,12 +52,26 @@ RSpec.describe GamesController, :type => :controller do
         user = User.create(password: "pass")
         game.players << Player.create(user_id: user.id)
       end
-      game.change_round
       get :show, id: game.id
-
-      binding.pry
 
       expect(response).to redirect_to(game_round_path(game_id: game.id, id: game.current_round.id))
     end
   end
+
+  describe "#seer" do
+    let(:game) { GameGenerator.create_game(user) }
+
+    it "lets the seer look at another player's card" do
+      6.times do
+        user = User.create(password: "pass")
+        game.players << Player.create(user_id: user.id)
+      game.assign_cards
+binding.pry
+      end
+      get :seer
+binding.pry
+      ActiveSupport::JSON.decode(response.body).should_not be_nil
+    end
+  end
+
 end
