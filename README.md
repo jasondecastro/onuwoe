@@ -12,14 +12,11 @@ rails s
 
 Seed your database:
 
-<code>
+<pre><code>
 rake db:create
-
 rake db:migrate
-
 rake db:seed
-
-</code>
+</code></pre>
 
 ### Wishlist (for any devs and our team to work collaborate on):
 
