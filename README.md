@@ -14,8 +14,11 @@ Seed your database:
 
 <code>
 rake db:create
+
 rake db:migrate
+
 rake db:seed
+
 </code>
 
 ### Wishlist (for any devs and our team to work collaborate on):
