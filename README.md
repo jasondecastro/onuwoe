@@ -1,9 +1,9 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails 5 Online edition clone of the popular “One Night Ultimate Werewolf” party game!
 
-Things you may want to cover:
+Wishlist (for any devs and our team to work collaborate on):
+1. 
 
 * Ruby version
 
