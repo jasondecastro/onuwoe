@@ -2,8 +2,15 @@
 
 Rails 5 Online edition clone of the popular “One Night Ultimate Werewolf” party game!
 
-Wishlist (for any devs and our team to work collaborate on):
-1. 
+### Getting Started
+
+Start up the rails server:
+
+<code>
+rails s
+</code>
+
+### Wishlist (for any devs and our team to work collaborate on):
 
 * Ruby version
 
